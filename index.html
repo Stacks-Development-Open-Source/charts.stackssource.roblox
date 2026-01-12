@@ -1,0 +1,17 @@
+<table id="gamesTable">
+  <tr><th>PlaceId</th><th>Nome</th></tr>
+</table>
+
+<script>
+async function carregarTabela() {
+  const res = await fetch("/api/score");
+  const data = await res.json();
+  const tbody = document.getElementById("gamesTable");
+  tbody.innerHTML = "<tr><th>PlaceId</th><th>Nome</th></tr>";
+  data.forEach(game => {
+    tbody.innerHTML += `<tr><td>${game.PlaceId}</td><td>${game.Name}</td></tr>`;
+  });
+}
+carregarTabela();
+setInterval(carregarTabela, 5000);
+</script>
