@@ -1,17 +1,43 @@
-<table id="gamesTable">
-  <tr><th>PlaceId</th><th>Nome</th></tr>
-</table>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Tabela de Jogos Roblox</title>
+  <style>
+    body { font-family: Arial; text-align: center; background: #f4f4f4; }
+    table { margin: auto; border-collapse: collapse; width: 70%; background: #fff; }
+    th, td { border: 1px solid #ccc; padding: 10px; }
+    th { background: #007acc; color: white; }
+  </style>
+</head>
+<body>
+  <h1>Jogos Roblox</h1>
+  <table id="gamesTable">
+    <tr><th>PlaceId</th><th>Nome</th></tr>
+  </table>
 
-<script>
-async function carregarTabela() {
-  const res = await fetch("/api/score");
-  const data = await res.json();
-  const tbody = document.getElementById("gamesTable");
-  tbody.innerHTML = "<tr><th>PlaceId</th><th>Nome</th></tr>";
-  data.forEach(game => {
-    tbody.innerHTML += `<tr><td>${game.PlaceId}</td><td>${game.Name}</td></tr>`;
-  });
-}
-carregarTabela();
-setInterval(carregarTabela, 5000);
-</script>
+  <script>
+    // Lista de PlaceIds que você quer mostrar
+    const placeIds = [4924922222, 2753915549, 920587237]; 
+    // Brookhaven, Blox Fruits, Adopt Me
+
+    async function carregarTabela() {
+      try {
+        const res = await fetch(
+          "https://games.roblox.com/v1/games/multiget-place-details?placeIds=" + placeIds.join(",")
+        );
+        const data = await res.json();
+        const table = document.getElementById("gamesTable");
+        table.innerHTML = "<tr><th>PlaceId</th><th>Nome</th></tr>";
+        data.forEach(jogo => {
+          table.innerHTML += `<tr><td>${jogo.placeId}</td><td>${jogo.name}</td></tr>`;
+        });
+      } catch (err) {
+        console.error("Erro ao carregar jogos:", err);
+      }
+    }
+
+    carregarTabela();
+  </script>
+</body>
+</html>
